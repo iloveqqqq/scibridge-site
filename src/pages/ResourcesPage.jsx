@@ -36,10 +36,10 @@ const ResourcesPage = () => {
         <p className="text-xs font-semibold uppercase tracking-wide text-brand/80">
           {t('resourcesPage.eyebrow', 'Resources')}
         </p>
-        <h1 className="text-3xl font-display font-semibold text-white">
+        <h1 className="text-3xl font-display font-semibold text-slate-900">
           {t('resourcesPage.heading', 'Extra study tools')}
         </h1>
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-slate-700">
           {t(
             'resourcesPage.description',
             'Explore safe websites that offer videos, animations, articles, and downloadable worksheets. Use these tools to review lessons or extend your learning in English.'
