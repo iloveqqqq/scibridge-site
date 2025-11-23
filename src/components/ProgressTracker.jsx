@@ -6,20 +6,20 @@ const ProgressTracker = ({ progress, totalLessons, onReset }) => {
   const percentage = totalLessons ? Math.round((completedCount / totalLessons) * 100) : 0;
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl border border-slate-800/70 bg-slate-900/70 p-6 text-slate-200 shadow-lg shadow-slate-950/40">
+    <section className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 text-slate-800 shadow-[0_25px_60px_-45px_rgba(15,23,42,0.3)]">
       <div>
         <p className="text-xs font-semibold uppercase tracking-wide text-brand/80">{t('progress.title', 'Learning Progress')}</p>
-        <h3 className="mt-2 text-2xl font-display font-semibold text-white">
+        <h3 className="mt-2 text-2xl font-display font-semibold text-slate-900">
           {t('progress.percentage', `${percentage}% complete`, { percentage })}
         </h3>
-        <p className="mt-1 text-sm text-slate-300">
+        <p className="mt-1 text-sm text-slate-600">
           {t('progress.summary', `You have finished ${completedCount} of ${totalLessons} lessons. Keep going!`, {
             completed: completedCount,
             total: totalLessons
           })}
         </p>
       </div>
-      <div className="h-3 w-full rounded-full bg-slate-800">
+      <div className="h-3 w-full rounded-full bg-slate-100">
         <div
           className="h-full rounded-full bg-brand transition-all"
           style={{ width: `${percentage}%` }}

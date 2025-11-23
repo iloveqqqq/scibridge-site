@@ -5,8 +5,8 @@ const NotFoundPage = () => {
   const { t } = useLanguage();
   return (
     <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-      <h1 className="text-4xl font-display font-semibold text-white">{t('notFound.title', 'Page not found')}</h1>
-      <p className="mt-4 text-sm text-slate-300">{t(
+      <h1 className="text-4xl font-display font-semibold text-slate-900">{t('notFound.title', 'Page not found')}</h1>
+      <p className="mt-4 text-sm text-slate-700">{t(
         'notFound.description',
         'The page you are looking for does not exist. Use the navigation bar or explore our main subjects.'
       )}</p>

@@ -14,9 +14,9 @@ const AboutPage = () => {
         <p className="text-xs font-semibold uppercase tracking-wide text-brand/80">
           {t('aboutPage.eyebrow', 'About')}
         </p>
-        <h1 className="text-3xl font-display font-semibold text-white">{t('aboutPage.heading', 'Our mission')}</h1>
+        <h1 className="text-3xl font-display font-semibold text-slate-900">{t('aboutPage.heading', 'Our mission')}</h1>
       </header>
-      <section className="space-y-4 rounded-3xl border border-slate-800/70 bg-slate-900/70 p-6 text-slate-300 shadow-lg shadow-slate-950/40">
+      <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 text-slate-700 shadow-[0_25px_60px_-45px_rgba(15,23,42,0.3)]">
         <p className="text-sm leading-7">
           {t(
             'aboutPage.description1',
@@ -30,11 +30,11 @@ const AboutPage = () => {
           )}
         </p>
       </section>
-      <section className="space-y-4 rounded-3xl border border-brand/40 bg-brand/10 p-6 text-slate-200 shadow-lg shadow-slate-950/40">
-        <h2 className="text-xl font-display font-semibold text-white">
+      <section className="space-y-4 rounded-3xl border border-brand/40 bg-brand/5 p-6 text-slate-800 shadow-[0_25px_60px_-45px_rgba(15,23,42,0.25)]">
+        <h2 className="text-xl font-display font-semibold text-slate-900">
           {t('aboutPage.expandHeading', 'How to expand this site')}
         </h2>
-        <ul className="list-disc space-y-2 pl-6 text-sm text-slate-200">
+        <ul className="list-disc space-y-2 pl-6 text-sm text-slate-800">
           {expandList.map((item, index) => (
             <li key={index}>{item}</li>
           ))}

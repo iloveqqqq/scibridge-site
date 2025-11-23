@@ -11,7 +11,7 @@ const SearchBar = ({ query, setQuery, placeholder = 'Search topics or keywords',
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full items-center gap-3 rounded-2xl border border-slate-800/70 bg-slate-950/60 px-4 py-3 shadow-inner shadow-slate-950/30"
+      className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-[0_15px_45px_-35px_rgba(15,23,42,0.35)]"
     >
       <FiSearch className="text-xl text-brand" aria-hidden />
       <input
@@ -20,7 +20,7 @@ const SearchBar = ({ query, setQuery, placeholder = 'Search topics or keywords',
         type="search"
         placeholder={t('searchBar.placeholder', placeholder)}
         aria-label={t('searchBar.placeholder', placeholder)}
-        className="w-full bg-transparent text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none"
+        className="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none"
       />
       <button
         type="submit"
