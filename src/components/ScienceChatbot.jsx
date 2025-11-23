@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { askScienceBot } from '../services/chatbotService.js';
 
 const cannedResponses = [
   {
@@ -43,26 +44,41 @@ const ScienceChatbot = () => {
     }
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const sendToBot = async (messageText) => {
+    setIsLoading(true);
+    try {
+      const reply = await askScienceBot(messageText);
+      setMessages((prev) => [...prev, { sender: 'bot', text: reply }]);
+    } catch (error) {
+      console.error('AI chatbot error', error);
+      const responseEntry = resolveResponse(messageText);
+      const fallbackMessage = responseEntry
+        ? {
+            sender: 'bot',
+            key: `chatbot.responses.${responseEntry.key}`,
+            fallback: responseEntry.fallback
+          }
+        : {
+            sender: 'bot',
+            key: 'chatbot.responses.fallback',
+            fallback: "I'm still learning. Try asking about force, atoms, ecosystems, or climate."
+          };
+      setMessages((prev) => [...prev, fallbackMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!input.trim()) return;
     const trimmed = input.trim();
     const userMessage = { sender: 'user', text: trimmed };
-    const responseEntry = resolveResponse(trimmed);
-    const botMessage = responseEntry
-      ? {
-          sender: 'bot',
-          key: `chatbot.responses.${responseEntry.key}`,
-          fallback: responseEntry.fallback
-        }
-      : {
-          sender: 'bot',
-          key: 'chatbot.responses.fallback',
-          fallback: "I'm still learning. Try asking about force, atoms, ecosystems, or climate."
-        };
-    setMessages((prev) => [...prev, userMessage, botMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
+    await sendToBot(trimmed);
   };
 
   return (
@@ -97,9 +113,10 @@ const ScienceChatbot = () => {
         />
         <button
           type="submit"
+          disabled={isLoading}
           className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(56,189,248,0.25)] transition hover:bg-brand-dark"
         >
-          {t('chatbot.send', 'Send')}
+          {isLoading ? t('chatbot.generating', 'Generating...') : t('chatbot.send', 'Send')}
           <FiSend aria-hidden />
         </button>
       </form>
