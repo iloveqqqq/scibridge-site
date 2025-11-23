@@ -12,9 +12,69 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 const allowedOrigins = process.env.CORS_ORIGIN?.split(',').map((origin) => origin.trim()) ?? ['http://localhost:5173'];
+const geminiApiKey = process.env.GEMINI_API_KEY;
+const geminiModel = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
+
+app.post('/api/chatbot', async (req, res) => {
+  const { prompt } = req.body ?? {};
+
+  if (!prompt?.trim()) {
+    return res.status(400).json({ message: 'A question or prompt is required.' });
+  }
+
+  if (!geminiApiKey) {
+    return res.status(500).json({ message: 'AI service is not configured. Please add GEMINI_API_KEY.' });
+  }
+
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${geminiApiKey}`;
+  const wrappedPrompt = [
+    'You are a friendly science tutor. Answer with a concise, age-appropriate explanation in simple English and avoid unsafe guidance.',
+    `Question: ${prompt.trim()}`
+  ].join(' ');
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: wrappedPrompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.4,
+          maxOutputTokens: 256
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}));
+      console.error('Gemini API error', errorBody);
+      return res.status(502).json({ message: 'The AI response is unavailable right now. Please try again soon.' });
+    }
+
+    const data = await response.json();
+    const reply = data?.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text)
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+
+    if (!reply) {
+      return res.status(502).json({ message: 'The AI could not generate a response.' });
+    }
+
+    res.json({ reply });
+  } catch (error) {
+    console.error('Error contacting Gemini API', error);
+    res.status(500).json({ message: 'Could not reach the AI service. Try again later.' });
+  }
+});
 
 const emailConfigured =
   Boolean(process.env.SMTP_HOST) &&

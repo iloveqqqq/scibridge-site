@@ -18,6 +18,8 @@ The frontend runs at [http://localhost:5173](http://localhost:5173) and expects 
 
 Copy `server/.env.example` to `server/.env` and set your SMTP host, port, username, and password so verification emails can be delivered. When SMTP details are omitted the API falls back to logging verification messages to the console, which is helpful for local testing.
 
+Set `GEMINI_API_KEY` (and optionally `GEMINI_MODEL`) in `server/.env` to enable the AI-powered Science Chatbot. Without these values the chatbot will fall back to canned responses.
+
 Set `VITE_API_BASE_URL` in a `.env` file at the project root if you expose the API at a different URL.
 
 To create an optimized production build:
