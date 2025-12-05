@@ -65,15 +65,17 @@ const Navbar = ({ onSearch, user, onLogout }) => {
     <header className={`sticky top-0 z-50 border-b backdrop-blur ${headerClasses}`}>
       <div className="mx-auto max-w-7xl px-4">
         <nav className="flex h-20 items-center gap-4">
-          <Link
-            to="/"
-            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-lg font-display font-semibold text-slate-900 shadow-[0_0_20px_rgba(15,23,42,0.15)] transition hover:border-brand/70"
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/20 text-sm font-bold uppercase tracking-wide text-brand">
-              SB
-            </span>
-            <span className="hidden sm:inline">SciBridge</span>
-          </Link>
+          <div className="flex flex-1 items-center justify-start">
+            <Link
+              to="/"
+              className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-lg font-display font-semibold text-slate-900 shadow-[0_0_20px_rgba(15,23,42,0.15)] transition hover:border-brand/70"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/20 text-sm font-bold uppercase tracking-wide text-brand">
+                SB
+              </span>
+              <span className="hidden sm:inline">SciBridge</span>
+            </Link>
+          </div>
           <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
             {navItems.map((item) => (
               <NavLink
@@ -85,7 +87,7 @@ const Navbar = ({ onSearch, user, onLogout }) => {
               </NavLink>
             ))}
           </div>
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden flex-1 items-center justify-end gap-3 md:flex">
             <form onSubmit={handleSubmit} className="relative">
               <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" aria-hidden />
               <input
