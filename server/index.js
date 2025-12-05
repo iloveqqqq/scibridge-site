@@ -199,8 +199,12 @@ app.post('/api/auth/login', async (req, res) => {
   res.json({
     message: 'Signed in successfully.',
     user: sanitizeUser(user)
+    message: 'Account created and saved locally.',
+    user: sanitizeUser(newUser)
   });
 });
+
+// Login through the API has been removed in favor of offline verification tools.
 
 app.get('/api/forum/posts', async (_req, res) => {
   const forumData = await readForumData();
