@@ -9,10 +9,9 @@ const baseNavItems = [
   { path: '/quizzes', labelKey: 'navbar.quizzes', defaultLabel: 'Interactive Quizzes' },
   { path: '/flashcards', labelKey: 'navbar.flashcards', defaultLabel: 'Flashcards' },
   { path: '/dictionary', labelKey: 'navbar.dictionary', defaultLabel: 'Dictionary' },
+  { path: '/chatbot', labelKey: 'navbar.chatbot', defaultLabel: 'Chatbot' },
   { path: '/login', labelKey: 'navbar.login', defaultLabel: 'Log in' },
   { path: '/register', labelKey: 'navbar.register', defaultLabel: 'Register' },
-  { path: '/resources', labelKey: 'navbar.resources', defaultLabel: 'Resources' },
-  { path: '/about', labelKey: 'navbar.about', defaultLabel: 'About' },
   { path: '/contact', labelKey: 'navbar.contact', defaultLabel: 'Contact' }
 ];
 

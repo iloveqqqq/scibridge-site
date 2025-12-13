@@ -1,6 +1,13 @@
 export const translations = {
   en: {
     navbar: {
+      home: 'Home',
+      subjects: 'Subjects',
+      quizzes: 'Interactive Quizzes',
+      flashcards: 'Flashcards',
+      dictionary: 'Dictionary',
+      chatbot: 'Chatbot',
+      contact: 'Contact',
       login: 'Log in',
       register: 'Register',
       languageToggle: 'Switch language',
@@ -9,9 +16,206 @@ export const translations = {
         vi: 'Vietnamese'
       }
     },
+    homePage: {
+      quickLinks: {
+        primary: 'Primary',
+        forum: 'Forum',
+        flashcards: 'Flashcards',
+        dictionary: 'Dictionary',
+        practice: 'Practice',
+        progress: 'Progress'
+      },
+      hero: {
+        eyebrow: 'Connecting Science & English',
+        title: 'SciBridge',
+        description:
+          'Learn physics, chemistry, biology, math, and English side-by-side. Friendly lessons, practice labs, and community support to help every learner grow.',
+        primaryCta: 'Start learning',
+        secondaryCta: 'See the forum',
+        stem: {
+          title: 'STEM Courses',
+          list: 'Math · Physics · Chemistry · Biology · IT'
+        },
+        language: {
+          title: 'Language Skills',
+          list: 'Phonetics · Academic English · Writing'
+        },
+        card: {
+          liveClass: 'Live Class',
+          topic: 'Electric Circuits',
+          teacherLabel: 'Teacher',
+          teacherDetail: 'Ms. Le - Explain the diagram',
+          studentLabel: 'Student',
+          studentDetail: 'Mai - Homework question (English)',
+          realtimeHelp: {
+            title: 'Realtime help',
+            description: 'Upload your exercise, get hints, and practice speaking confidently.'
+          }
+        }
+      },
+      learningPathsEyebrow: 'Choose your pathway',
+      learningPathsTitle: 'Support for every grade level',
+      learningPathsDescription:
+        'Dedicated tracks for primary, lower secondary, and upper secondary learners.',
+      learningPaths: {
+        primary: {
+          title: 'Primary',
+          grades: 'Grades 1-5',
+          summary:
+            'Grow a science and English foundation with colorful stories and simple experiments.',
+          chips: ['Math starters', 'Science in English', 'Everyday vocabulary']
+        },
+        lowerSecondary: {
+          title: 'Lower Secondary',
+          grades: 'Grades 6-9',
+          summary:
+            'Confidently explore physics, chemistry, and biology while practicing subject-specific English.',
+          chips: ['Lab language', 'Topic quizzes', 'Flashcards']
+        },
+        upperSecondary: {
+          title: 'Upper Secondary',
+          grades: 'Grades 10-12',
+          summary: 'Prepare for advanced science with bilingual lessons, study tips, and mock tests.',
+          chips: ['Exam prep', 'Project ideas', 'Tutor notes']
+        }
+      },
+      subjectsEyebrow: 'Subjects',
+      subjectsTitle: 'STEM & Language focus',
+      subjectsDescription: 'Follow the map and unlock every unit with bilingual notes.',
+      subjectsCta: 'Browse all subjects',
+      subjectHighlights: {
+        math: {
+          title: 'Mathematics',
+          grades: 'Grade 10 · Grade 11 · Grade 12',
+          bullet: 'Algebra | Geometry | Functions | Trigonometry'
+        },
+        physics: {
+          title: 'Physics',
+          grades: 'Grade 10 · Grade 11 · Grade 12',
+          bullet: 'Mechanics | Waves | Electricity | Optics'
+        },
+        chemistry: {
+          title: 'Chemistry',
+          grades: 'Grade 10 · Grade 11 · Grade 12',
+          bullet: 'Atomic structure | Equations | Reaction rates | Organic'
+        },
+        biology: {
+          title: 'Biology',
+          grades: 'Grade 10 · Grade 11 · Grade 12',
+          bullet: 'Cells | Genetics | Plants | Ecology'
+        },
+        english: {
+          title: 'English',
+          grades: 'Phonetics · English for Science · Academic Writing',
+          bullet: 'Speech sounds | Grammar in use | Lab instructions | IELTS tips'
+        },
+        vietnamese: {
+          title: 'Vietnamese',
+          grades: 'Phonetics · Reading · Grammar',
+          bullet: 'Balanced literacy | Storytelling | Writing practice'
+        }
+      },
+      communityEyebrow: 'Community',
+      communityTitle: 'Practice English in real situations',
+      communityDescription:
+        'Get gentle pronunciation practice, classroom-ready expressions, and mentor feedback. Upload homework, ask questions, and learn together.',
+      communityPrimaryCta: 'Open the forum',
+      communitySecondaryCta: 'Log in to join',
+      communityExplore: 'Explore',
+      community: {
+        languageLab: {
+          title: 'Language Lab',
+          description: 'Warm up with greetings, classroom phrases, and pronunciation.',
+          items: ['Greetings', 'Classroom language', 'English spelling']
+        },
+        forum: {
+          title: 'Forum & Tutor Room',
+          description: 'Ask questions, share tips, and get feedback from the SciBridge team.',
+          items: ['Weekly challenges', 'Study tips', 'Peer feedback']
+        }
+      },
+      resourcesEyebrow: 'Resources',
+      resourcesTitle: 'Stay organized',
+      resourcesDescription: 'Flashcards, dictionary, exercises, and progress in one place.',
+      aboutEyebrow: 'About',
+      aboutTitle: 'Built for bilingual STEM learners',
+      aboutDescription:
+        'SciBridge mixes STEM concepts with friendly English practice so you can speak, write, and solve problems with confidence.',
+      aboutPillars: ['Bilingual lessons', 'Local mentors', 'Free community events', 'Practical labs'],
+      aboutCardTitle: 'Why students choose us',
+      aboutCardSubtitle: 'Stories from learners, tutors, and parents across Vietnam',
+      aboutHighlights: {
+        guidedTitle: 'Guided learning',
+        guidedBody: 'Follow a roadmap with checkpoints, mentor notes, and bilingual examples.',
+        supportTitle: 'Always supported',
+        supportBody: 'Chat with tutors, review flashcards, and ask questions in Vietnamese or English.'
+      },
+      aboutPrimaryCta: 'Try the chatbot',
+      aboutSecondaryCta: 'Talk to our team',
+      resources: {
+        flashcards: {
+          title: 'Flashcards',
+          description: 'Study core STEM vocabulary with clean, easy-to-review decks.'
+        },
+        dictionary: {
+          title: 'Dictionary',
+          description: 'Look up terms and hear how they connect to real experiments.'
+        },
+        practice: {
+          title: 'Practice',
+          description: 'Try quizzes and quick checks for every lesson.'
+        },
+        progress: {
+          title: 'Progress',
+          description: 'Track completed modules and celebrate milestones.'
+        }
+      }
+    },
     lessonsPage: {
       lessonFound: 'lesson found',
       lessonsFound: 'lessons found'
+    },
+    chatbotPage: {
+      eyebrow: 'AI Tutor',
+      title: 'Science chatbot for quick answers',
+      description:
+        'Ask a question, see sample wording, and learn with gentle English explanations made for students.',
+      cards: {
+        guidance: {
+          title: 'Guided prompts',
+          description: 'Tap a suggested topic and get a clear, bilingual-friendly explanation.'
+        },
+        examples: {
+          title: 'Simple examples',
+          description: 'Receive short definitions, visuals-in-words, and easy vocabulary you can reuse.'
+        },
+        practice: {
+          title: 'Practice-ready',
+          description: 'Copy replies into flashcards or quizzes to keep reviewing what you learn.'
+        }
+      }
+    },
+    chatbot: {
+      title: 'Science Helper Chatbot',
+      description: 'Type a topic keyword and receive an easy English explanation.',
+      placeholder: 'Ask about force, atoms, ecosystems...',
+      inputLabel: 'Chat message',
+      status: 'Online • Answers in simple English',
+      liveBadge: 'Live tutor mode',
+      quickPrompts: ['Newton laws', 'Periodic table', 'Ecosystem energy', 'DNA'],
+      timeline: 'Today',
+      send: 'Send',
+      generating: 'Generating...',
+      welcome: 'Hello! Ask me a science question in English. I will explain with simple words.',
+      responses: {
+        force: 'A force is a push or pull. It can change an object\'s motion by speeding it up, slowing it down, or changing direction.',
+        atom:
+          'Atoms are very small particles. They have a nucleus with protons and neutrons, and electrons move around the nucleus.',
+        ecosystem:
+          'An ecosystem is a community of living things and their environment. Energy flows from producers to consumers and then to decomposers.',
+        climate: 'Weather changes every day. Climate describes long-term patterns of weather in an area.',
+        fallback: "I'm still learning. Try asking about force, atoms, ecosystems, or climate."
+      }
     }
   },
   vi: {
@@ -19,11 +223,11 @@ export const translations = {
       home: 'Trang chủ',
       subjects: 'Môn học',
       quizzes: 'Bài kiểm tra tương tác',
-      forum: 'Diễn đàn',
+      flashcards: 'Flashcards',
+      dictionary: 'Từ điển',
+      chatbot: 'Chatbot',
       login: 'Đăng nhập',
       register: 'Đăng ký',
-      resources: 'Tài nguyên',
-      about: 'Giới thiệu',
       contact: 'Liên hệ',
       admin: 'Bảng điều khiển',
       joinForum: 'Tham gia diễn đàn',
@@ -35,6 +239,158 @@ export const translations = {
       searchPlaceholder: 'Tìm kiếm bài học',
       languageToggle: 'Chuyển đổi ngôn ngữ',
       searchAria: 'Tìm kiếm bài học'
+    },
+    homePage: {
+      quickLinks: {
+        primary: 'Tiểu học',
+        forum: 'Diễn đàn',
+        flashcards: 'Thẻ từ vựng',
+        dictionary: 'Từ điển',
+        practice: 'Luyện tập',
+        progress: 'Tiến độ'
+      },
+      hero: {
+        eyebrow: 'Kết nối Khoa học & Tiếng Anh',
+        title: 'SciBridge',
+        description:
+          'Học Vật lý, Hóa học, Sinh học, Toán và Tiếng Anh song song. Bài học thân thiện, phòng lab thực hành và cộng đồng hỗ trợ giúp mọi người học tiến bộ.',
+        primaryCta: 'Bắt đầu học',
+        secondaryCta: 'Xem diễn đàn',
+        stem: {
+          title: 'Khóa STEM',
+          list: 'Toán · Vật lý · Hóa học · Sinh học · Tin học'
+        },
+        language: {
+          title: 'Kỹ năng ngôn ngữ',
+          list: 'Ngữ âm · Tiếng Anh học thuật · Viết'
+        },
+        card: {
+          liveClass: 'Lớp trực tiếp',
+          topic: 'Mạch điện',
+          teacherLabel: 'Giáo viên',
+          teacherDetail: 'Cô Lê - Giải thích sơ đồ',
+          studentLabel: 'Học sinh',
+          studentDetail: 'Mai - Câu hỏi bài tập (Tiếng Anh)',
+          realtimeHelp: {
+            title: 'Hỗ trợ tức thì',
+            description: 'Tải bài tập, nhận gợi ý và luyện nói tự tin.'
+          }
+        }
+      },
+      learningPathsEyebrow: 'Chọn lộ trình học',
+      learningPathsTitle: 'Hỗ trợ mọi cấp lớp',
+      learningPathsDescription: 'Lộ trình riêng cho tiểu học, THCS và THPT.',
+      learningPaths: {
+        primary: {
+          title: 'Tiểu học',
+          grades: 'Lớp 1-5',
+          summary: 'Xây nền tảng khoa học và tiếng Anh với truyện màu sắc và thí nghiệm đơn giản.',
+          chips: ['Bắt đầu toán', 'Khoa học bằng tiếng Anh', 'Từ vựng hằng ngày']
+        },
+        lowerSecondary: {
+          title: 'THCS',
+          grades: 'Lớp 6-9',
+          summary: 'Tự tin khám phá Vật lý, Hóa học, Sinh học và luyện tiếng Anh chuyên môn.',
+          chips: ['Ngôn ngữ phòng lab', 'Câu hỏi theo chủ đề', 'Thẻ ghi nhớ']
+        },
+        upperSecondary: {
+          title: 'THPT',
+          grades: 'Lớp 10-12',
+          summary: 'Chuẩn bị kiến thức nâng cao với bài học song ngữ, mẹo ôn tập và đề mô phỏng.',
+          chips: ['Ôn thi', 'Ý tưởng dự án', 'Ghi chú gia sư']
+        }
+      },
+      subjectsEyebrow: 'Môn học',
+      subjectsTitle: 'Trọng tâm STEM & Ngôn ngữ',
+      subjectsDescription: 'Làm theo sơ đồ và mở khóa từng chủ đề với ghi chú song ngữ.',
+      subjectsCta: 'Xem tất cả môn học',
+      subjectHighlights: {
+        math: {
+          title: 'Toán học',
+          grades: 'Lớp 10 · Lớp 11 · Lớp 12',
+          bullet: 'Đại số | Hình học | Hàm số | Lượng giác'
+        },
+        physics: {
+          title: 'Vật lý',
+          grades: 'Lớp 10 · Lớp 11 · Lớp 12',
+          bullet: 'Cơ học | Sóng | Điện | Quang học'
+        },
+        chemistry: {
+          title: 'Hóa học',
+          grades: 'Lớp 10 · Lớp 11 · Lớp 12',
+          bullet: 'Cấu tạo nguyên tử | Phương trình | Tốc độ phản ứng | Hữu cơ'
+        },
+        biology: {
+          title: 'Sinh học',
+          grades: 'Lớp 10 · Lớp 11 · Lớp 12',
+          bullet: 'Tế bào | Di truyền | Thực vật | Sinh thái'
+        },
+        english: {
+          title: 'Tiếng Anh',
+          grades: 'Ngữ âm · Tiếng Anh cho Khoa học · Viết học thuật',
+          bullet: 'Âm vị | Ngữ pháp ứng dụng | Hướng dẫn trong phòng lab | Mẹo IELTS'
+        },
+        vietnamese: {
+          title: 'Tiếng Việt',
+          grades: 'Ngữ âm · Đọc hiểu · Ngữ pháp',
+          bullet: 'Đọc hiểu toàn diện | Kể chuyện | Luyện viết'
+        }
+      },
+      communityEyebrow: 'Cộng đồng',
+      communityTitle: 'Luyện tiếng Anh trong tình huống thật',
+      communityDescription:
+        'Luyện phát âm nhẹ nhàng, cụm từ trong lớp và nhận góp ý từ người hướng dẫn. Tải bài tập, đặt câu hỏi và học cùng nhau.',
+      communityPrimaryCta: 'Mở diễn đàn',
+      communitySecondaryCta: 'Đăng nhập để tham gia',
+      communityExplore: 'Khám phá',
+      community: {
+        languageLab: {
+          title: 'Phòng ngôn ngữ',
+          description: 'Khởi động với lời chào, câu trong lớp và phát âm.',
+          items: ['Chào hỏi', 'Ngôn ngữ lớp học', 'Đánh vần tiếng Anh']
+        },
+        forum: {
+          title: 'Diễn đàn & Phòng gia sư',
+          description: 'Đặt câu hỏi, chia sẻ mẹo và nhận phản hồi từ đội ngũ SciBridge.',
+          items: ['Thử thách hằng tuần', 'Mẹo học tập', 'Phản hồi từ bạn học']
+        }
+      },
+      resourcesEyebrow: 'Tài nguyên',
+      resourcesTitle: 'Sắp xếp ngăn nắp',
+      resourcesDescription: 'Thẻ từ vựng, từ điển, bài luyện tập và tiến độ ở cùng một nơi.',
+      aboutEyebrow: 'Giới thiệu',
+      aboutTitle: 'Dành cho người học STEM song ngữ',
+      aboutDescription:
+        'SciBridge kết hợp kiến thức STEM với luyện tiếng Anh thân thiện để bạn nói, viết và giải quyết vấn đề tự tin hơn.',
+      aboutPillars: ['Bài học song ngữ', 'Gia sư bản địa', 'Sự kiện cộng đồng miễn phí', 'Thực hành phòng lab'],
+      aboutCardTitle: 'Vì sao học sinh chọn chúng tôi',
+      aboutCardSubtitle: 'Câu chuyện từ học viên, gia sư và phụ huynh trên khắp Việt Nam',
+      aboutHighlights: {
+        guidedTitle: 'Lộ trình có hướng dẫn',
+        guidedBody: 'Đi theo lộ trình với mốc kiểm tra, ghi chú từ gia sư và ví dụ song ngữ.',
+        supportTitle: 'Hỗ trợ mọi lúc',
+        supportBody: 'Trò chuyện với gia sư, ôn flashcard và đặt câu hỏi bằng Tiếng Việt hoặc Tiếng Anh.'
+      },
+      aboutPrimaryCta: 'Dùng thử chatbot',
+      aboutSecondaryCta: 'Trao đổi với đội ngũ',
+      resources: {
+        flashcards: {
+          title: 'Thẻ từ vựng',
+          description: 'Ôn từ vựng STEM cốt lõi với bộ thẻ dễ xem lại.'
+        },
+        dictionary: {
+          title: 'Từ điển',
+          description: 'Tra cứu thuật ngữ và cách áp dụng vào thí nghiệm thực tế.'
+        },
+        practice: {
+          title: 'Luyện tập',
+          description: 'Làm bài kiểm tra nhanh cho từng bài học.'
+        },
+        progress: {
+          title: 'Tiến độ',
+          description: 'Theo dõi mô-đun đã hoàn thành và ăn mừng mốc học tập.'
+        }
+      }
     },
     hero: {
       eyebrow: 'Học tiếng Anh trước',
@@ -413,6 +769,26 @@ export const translations = {
         'Khám phá các trang web an toàn cung cấp video, hoạt hình, bài viết và tài liệu tải xuống. Hãy dùng những công cụ này để ôn bài hoặc mở rộng việc học bằng tiếng Anh.',
       visit: 'Truy cập tài nguyên'
     },
+    chatbotPage: {
+      eyebrow: 'Gia sư AI',
+      title: 'Chatbot khoa học cho câu trả lời nhanh',
+      description:
+        'Đặt câu hỏi, xem gợi ý cách diễn đạt và học qua lời giải thích tiếng Anh nhẹ nhàng dành cho học sinh.',
+      cards: {
+        guidance: {
+          title: 'Gợi ý câu hỏi',
+          description: 'Chạm vào chủ đề gợi ý để nhận lời giải thích rõ ràng, dễ hiểu song ngữ.'
+        },
+        examples: {
+          title: 'Ví dụ đơn giản',
+          description: 'Nhận định nghĩa ngắn, hình ảnh bằng lời và từ vựng dễ áp dụng lại.'
+        },
+        practice: {
+          title: 'Sẵn sàng luyện tập',
+          description: 'Sao chép câu trả lời vào flashcard hoặc bài kiểm tra để ôn tập tiếp.'
+        }
+      }
+    },
     homeForum: {
       wordEyebrow: 'Từ vựng hôm nay',
       chatbotTitle: 'Trợ lý khoa học',
@@ -427,7 +803,13 @@ export const translations = {
       title: 'Chatbot trợ giúp khoa học',
       description: 'Nhập từ khóa chủ đề và nhận lời giải thích bằng tiếng Anh đơn giản.',
       placeholder: 'Hỏi về lực, nguyên tử, hệ sinh thái...',
+      inputLabel: 'Tin nhắn trò chuyện',
+      status: 'Trực tuyến • Trả lời bằng tiếng Anh đơn giản',
+      liveBadge: 'Chế độ gia sư trực tiếp',
+      quickPrompts: ['Định luật Newton', 'Bảng tuần hoàn', 'Năng lượng hệ sinh thái', 'DNA'],
+      timeline: 'Hôm nay',
       send: 'Gửi',
+      generating: 'Đang tạo...',
       welcome: 'Xin chào! Hãy hỏi tôi một câu hỏi khoa học bằng tiếng Anh. Tôi sẽ giải thích bằng ngôn ngữ dễ hiểu.',
       responses: {
         force:
