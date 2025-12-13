@@ -3,13 +3,11 @@
 @tailwind utilities;
 
 body {
-  @apply min-h-screen bg-slate-50 text-slate-900 antialiased;
-  background-image: radial-gradient(circle at 10% -10%, rgba(14, 165, 233, 0.14), transparent 32%),
-    radial-gradient(circle at 90% 140%, rgba(203, 213, 225, 0.9), #f8fafc 70%);
+  @apply min-h-screen bg-[#0b4f7f] text-slate-900 antialiased;
+  background-image: linear-gradient(135deg, #0b4f7f, #0a2f53);
   background-attachment: fixed;
 }
 
 img {
   @apply rounded-xl;
 }
-

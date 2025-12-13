@@ -16,6 +16,7 @@ import AdminPanelPage from './pages/AdminPanelPage';
 import { useProgress } from './hooks/useProgress';
 import FlashcardsPage from './pages/FlashcardsPage.jsx';
 import DictionaryPage from './pages/DictionaryPage.jsx';
+import ChatbotPage from './pages/ChatbotPage.jsx';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -84,6 +85,7 @@ const App = () => {
           <Route path="/quizzes" element={<QuizzesPage />} />
           <Route path="/flashcards" element={<FlashcardsPage />} />
           <Route path="/dictionary" element={<DictionaryPage />} />
+          <Route path="/chatbot" element={<ChatbotPage />} />
           <Route
             path="/forum"
             element={<ForumPage user={user} onAuthSuccess={handleAuthSuccess} onLogout={handleLogout} />}

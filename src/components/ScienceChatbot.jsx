@@ -82,39 +82,83 @@ const ScienceChatbot = () => {
   };
 
   return (
-    <section className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_-45px_rgba(15,23,42,0.3)]">
-      <h3 className="text-lg font-semibold text-slate-900">{t('chatbot.title', 'Science Helper Chatbot')}</h3>
-      <p className="mt-1 text-sm text-slate-700">
-        {t('chatbot.description', 'Type a topic keyword and receive an easy English explanation.')}
-      </p>
-      <div className="mt-4 flex-1 space-y-3 overflow-y-auto">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
-              message.sender === 'bot'
-                ? 'border border-brand/40 bg-brand/10 text-brand-dark'
-                : 'ml-auto border border-slate-200 bg-slate-50 text-slate-800'
-            }`}
-          >
-            {'text' in message
-              ? message.text
-              : t(message.key, message.fallback)}
+    <section className="flex h-full flex-col gap-5 rounded-[24px] border border-white/60 bg-gradient-to-br from-white/95 via-white to-sky-50/80 p-6 text-slate-900 shadow-[0_20px_70px_rgba(0,0,0,0.18)]">
+      <div className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-inner">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/15 text-lg">🤖</div>
+            <div>
+              <p className="text-sm font-semibold">{t('chatbot.title', 'Science Helper Chatbot')}</p>
+              <p className="text-xs text-slate-500">
+                {t('chatbot.status', 'Online • Answers in simple English')}
+              </p>
+            </div>
           </div>
-        ))}
+          <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+            {t('chatbot.liveBadge', 'Live tutor mode')}
+          </div>
+        </div>
+        <p className="text-sm text-slate-700">
+          {t('chatbot.description', 'Type a topic keyword and receive an easy English explanation.')}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {t('chatbot.quickPrompts', ['Newton laws', 'Periodic table', 'Ecosystem energy', 'DNA'])?.map((prompt) => (
+            <button
+              key={prompt}
+              type="button"
+              onClick={() => setInput(prompt)}
+              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-brand/60 hover:text-slate-900"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="mt-4 flex items-center gap-3">
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          className="flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
-          placeholder={t('chatbot.placeholder', 'Ask about force, atoms, ecosystems...')}
-          aria-label="Chat message"
-        />
+
+      <div className="flex flex-1 flex-col gap-3 overflow-hidden rounded-2xl border border-slate-200/80 bg-white/80 p-4">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
+          {t('chatbot.timeline', 'Today')}
+        </div>
+        <div className="flex-1 space-y-3 overflow-y-auto pr-1">
+          {messages.map((message, index) => (
+            <div key={index} className={`flex gap-3 ${message.sender === 'bot' ? '' : 'flex-row-reverse text-right'}`}>
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg shadow-inner ${
+                  message.sender === 'bot' ? 'bg-brand/10 text-brand-dark' : 'bg-slate-900 text-white'
+                }`}
+              >
+                {message.sender === 'bot' ? 'SB' : 'You'}
+              </div>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+                  message.sender === 'bot'
+                    ? 'border border-brand/30 bg-sky-50 text-slate-900'
+                    : 'border border-slate-200 bg-white text-slate-900'
+                }`}
+              >
+                {'text' in message ? message.text : t(message.key, message.fallback)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="grid gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-inner md:grid-cols-[1fr_auto] md:items-center">
+        <div className="relative flex items-center">
+          <input
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            className="w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
+            placeholder={t('chatbot.placeholder', 'Ask about force, atoms, ecosystems...')}
+            aria-label={t('chatbot.inputLabel', 'Chat message')}
+          />
+        </div>
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(56,189,248,0.25)] transition hover:bg-brand-dark"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand to-sky-400 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(56,189,248,0.35)] transition hover:translate-y-[-1px] hover:shadow-[0_16px_35px_rgba(56,189,248,0.45)] disabled:opacity-70"
         >
           {isLoading ? t('chatbot.generating', 'Generating...') : t('chatbot.send', 'Send')}
           <FiSend aria-hidden />
