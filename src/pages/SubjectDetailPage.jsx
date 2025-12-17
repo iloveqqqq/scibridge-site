@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiBookOpen, FiLayers, FiList, FiPlayCircle } from 'react-icons/fi';
-import LessonCard from '../components/LessonCard';
 import { subjects } from '../data/lessons';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { getLearningTracks } from '../services/learningTrackService.js';
 
-const SubjectDetailPage = ({ progress, onComplete }) => {
+const SubjectDetailPage = () => {
   const { subjectId } = useParams();
   const { t } = useLanguage();
   const [tracks, setTracks] = useState([]);
   const [selectedGrade, setSelectedGrade] = useState('10');
   const [selectedChapterId, setSelectedChapterId] = useState(null);
   const [selectedLessonId, setSelectedLessonId] = useState(null);
+  const [expandedGrade, setExpandedGrade] = useState(null);
   const subject = useMemo(() => subjects.find((item) => item.id === subjectId), [subjectId]);
   const badgeLabel = subject
     ? subject.id === 'english-for-science'
@@ -28,7 +28,15 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
     setSelectedGrade('10');
     setSelectedChapterId(null);
     setSelectedLessonId(null);
+    setExpandedGrade(null);
   }, [subjectId]);
+
+  useEffect(() => {
+    setSelectedChapterId(null);
+    setSelectedLessonId(null);
+  }, [selectedGrade]);
+
+  const gradeLevels = ['10', '11', '12'];
 
   const subjectTracks = useMemo(() => {
     if (!subject) return [];
@@ -44,11 +52,26 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
     [subjectTracks, selectedGrade]
   );
 
+  const tracksByGrade = useMemo(() => {
+    return gradeLevels.reduce((acc, grade) => {
+      acc[grade] = subjectTracks.find((track) => track.gradeLevel === grade);
+      return acc;
+    }, {});
+  }, [subjectTracks]);
+
   const activeTrack = gradeTracks[0];
   const chapters = activeTrack?.chapters ?? [];
   const activeChapter = chapters.find((chapter) => chapter.id === selectedChapterId) || chapters[0];
   const lessons = activeChapter?.lessons ?? [];
   const activeLesson = lessons.find((lesson) => lesson.id === selectedLessonId) || lessons[0];
+
+  const handleViewLessons = (grade, track) => {
+    setSelectedGrade(grade);
+    setExpandedGrade(grade);
+    const firstChapterId = track?.chapters?.[0]?.id || null;
+    setSelectedChapterId(firstChapterId);
+    setSelectedLessonId(track?.chapters?.[0]?.lessons?.[0]?.id || null);
+  };
 
   useEffect(() => {
     if (chapters.length && !selectedChapterId) {
@@ -61,8 +84,6 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
       setSelectedLessonId(lessons[0].id);
     }
   }, [lessons, selectedLessonId]);
-
-  const gradeLevels = ['10', '11', '12'];
 
   if (!subject) {
     return (
@@ -115,7 +136,10 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
               <button
                 key={grade}
                 type="button"
-                onClick={() => setSelectedGrade(grade)}
+                onClick={() => {
+                  setSelectedGrade(grade);
+                  setExpandedGrade(grade);
+                }}
                 className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                   selectedGrade === grade
                     ? 'border-brand bg-brand text-white shadow-[0_10px_30px_rgba(56,189,248,0.35)]'
@@ -207,7 +231,8 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
                   >
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand">{lesson.title}</p>
                     <p className="mt-1 text-sm text-slate-700 line-clamp-3">
-                      {lesson.sections?.vocab || t('subjectsPage.lessonPlaceholder', 'Admin thêm nội dung ở VOCAB/PRACTICE/DIALOGUE')}
+                      {lesson.sections?.vocabulary ||
+                        t('subjectsPage.lessonPlaceholder', 'Admin thêm nội dung ở VOCABULARY/QUIZZES/DIALOGUE')}
                     </p>
                   </button>
                 ))}
@@ -216,12 +241,12 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
               {activeLesson && (
                 <div className="grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-800">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-brand">VOCAB</p>
-                    <p className="mt-1 whitespace-pre-line">{activeLesson.sections?.vocab || '-'}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-brand">VOCABULARY</p>
+                    <p className="mt-1 whitespace-pre-line">{activeLesson.sections?.vocabulary || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-brand">PRACTICE</p>
-                    <p className="mt-1 whitespace-pre-line">{activeLesson.sections?.practice || '-'}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-brand">QUIZZES</p>
+                    <p className="mt-1 whitespace-pre-line">{activeLesson.sections?.quizzes || '-'}</p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand">DIALOGUE</p>
@@ -240,20 +265,158 @@ const SubjectDetailPage = ({ progress, onComplete }) => {
         )}
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-display font-semibold text-slate-900">
-          {t('subjectsPage.lessonCollection', 'Lesson collection')}
-        </h2>
-        <div className="space-y-6">
-          {subject.lessons.map((lesson) => (
-            <LessonCard
-              key={lesson.id}
-              lesson={lesson}
-              subjectId={subject.id}
-              isCompleted={Boolean(progress[lesson.id])}
-              onComplete={onComplete}
-            />
-          ))}
+      <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_25px_60px_-45px_rgba(15,23,42,0.3)]">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand/80">
+              {t('subjectsPage.lessonCollection', 'Lesson collection')}
+            </p>
+            <h2 className="text-xl font-display font-semibold text-slate-900">
+              {t('subjectsPage.chapterCollectionHeading', 'Chọn chapter trong khối {grade}', {
+                grade: selectedGrade
+              })}
+            </h2>
+            <p className="text-sm text-slate-700">
+              {t(
+                'subjectsPage.chapterCollectionHint',
+                'Bấm View lessons trong từng khối để xem list chapter. Nhấp chapter sẽ mở trang riêng với đủ VOCABULARY/QUIZZES/DIALOGUE.'
+              )}
+            </p>
+            <p className="text-xs text-slate-500">
+              {t('subjectsPage.chapterCollectionSmall', 'Dữ liệu chapter/lesson do admin nhập trong Admin panel.')}
+            </p>
+          </div>
+          <span className="rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-700">
+            {t('subjectsPage.gradeLabel', 'Grade {grade}', { grade: selectedGrade })}
+          </span>
+        </div>
+
+        <div className="space-y-4">
+          {gradeLevels.map((grade) => {
+            const trackForGrade = tracksByGrade[grade];
+            const isExpanded = expandedGrade === grade;
+            const chapterList = trackForGrade?.chapters ?? [];
+
+            return (
+              <article
+                key={grade}
+                className="space-y-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-5 shadow-sm"
+              >
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand">
+                      <FiLayers aria-hidden />
+                      <span>{t('subjectsPage.gradeLabel', 'Grade {grade}', { grade })}</span>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                        {t('subjectsPage.lessonCount', '{count} chapter', { count: chapterList.length })}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-700">
+                      {trackForGrade?.summary ||
+                        t(
+                          'subjectsPage.noTrackSummary',
+                          'Admin chưa thêm khối này. Hãy tạo Grade {grade} trong admin panel để nhập chapter.',
+                          { grade }
+                        )}
+                    </p>
+                    {(trackForGrade?.documentUrl || trackForGrade?.youtubeUrl) && (
+                      <div className="flex flex-wrap gap-2 text-xs font-semibold text-brand">
+                        {trackForGrade?.documentUrl && (
+                          <a
+                            href={trackForGrade.documentUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 hover:border-brand/50"
+                          >
+                            <FiBookOpen aria-hidden /> PDF / Doc
+                          </a>
+                        )}
+                        {trackForGrade?.youtubeUrl && (
+                          <a
+                            href={trackForGrade.youtubeUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 hover:border-brand/50"
+                          >
+                            <FiPlayCircle aria-hidden /> YouTube
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleViewLessons(grade, trackForGrade)}
+                      disabled={!trackForGrade}
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_-15px_rgba(56,189,248,0.45)] transition hover:-translate-y-0.5 hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-400"
+                    >
+                      {t('subjectsPage.viewLessonCta', 'View lessons')}
+                    </button>
+                    {trackForGrade && (
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                        {t('subjectsPage.chapterCount', '{count} chapter do admin thêm', { count: chapterList.length })}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {isExpanded && (
+                  <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
+                    {!trackForGrade && (
+                      <p className="text-sm text-slate-700">
+                        {t(
+                          'subjectsPage.noTrackForGrade',
+                          'Khối này chưa có dữ liệu. Admin thêm Grade {grade} ở trang quản trị.',
+                          { grade }
+                        )}
+                      </p>
+                    )}
+
+                    {trackForGrade && !chapterList.length && (
+                      <p className="text-sm text-slate-700">
+                        {t(
+                          'subjectsPage.noChapters',
+                          'Chưa có chapter cho khối này. Admin hãy thêm bài trong trang quản trị để hiển thị tại đây.'
+                        )}
+                      </p>
+                    )}
+
+                    {trackForGrade && !!chapterList.length && (
+                      <div className="grid gap-3 md:grid-cols-2">
+                        {chapterList.map((chapter) => (
+                          <Link
+                            key={chapter.id}
+                            to={`/subjects/${subject.id}/grades/${grade}/chapters/${chapter.id}`}
+                            className="group flex flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:bg-white hover:shadow-[0_20px_45px_-30px_rgba(56,189,248,0.5)]"
+                          >
+                            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand">
+                              <FiLayers aria-hidden />
+                              <span>{chapter.title}</span>
+                            </div>
+                            {chapter.description && (
+                              <p className="text-sm text-slate-700 line-clamp-3">{chapter.description}</p>
+                            )}
+                            <div className="flex items-center gap-3 text-xs font-semibold text-slate-600">
+                              <span className="rounded-full bg-white px-3 py-1">
+                                {t('subjectsPage.lessonCount', '{count} lesson', {
+                                  count: chapter.lessons?.length || 0
+                                })}
+                              </span>
+                              <span className="text-brand group-hover:text-brand-dark">
+                                {t('subjectsPage.viewChapter', 'Mở trang chapter →')}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
         </div>
       </section>
     </div>
