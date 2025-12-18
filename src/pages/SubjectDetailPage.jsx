@@ -8,7 +8,7 @@ import { getLearningTracks } from '../services/learningTrackService.js';
 const SubjectDetailPage = () => {
   const { subjectId } = useParams();
   const { t } = useLanguage();
-  const audioBaseUrl = (import.meta.env.VITE_AUDIO_BASE_URL || '/uploads').replace(/\/$/, '');
+  const audioBaseUrl = (import.meta.env.VITE_AUDIO_BASE_URL || '/uploads/audio').replace(/\/$/, '');
   const [tracks, setTracks] = useState([]);
   const [selectedGrade, setSelectedGrade] = useState('10');
   const [selectedChapterId, setSelectedChapterId] = useState(null);
@@ -22,7 +22,15 @@ const SubjectDetailPage = () => {
     : '';
 
   useEffect(() => {
-    setTracks(getLearningTracks());
+    let isMounted = true;
+    getLearningTracks().then((data) => {
+      if (!isMounted) return;
+      setTracks(data);
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
