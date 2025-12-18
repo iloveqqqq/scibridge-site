@@ -134,7 +134,7 @@ const WordPressAdminEmbed = ({ url }) => {
           Open in new tab
         </a>
       </div>
-      <div className="relative h-[720px] bg-slate-100">
+      <div className="relative min-h-[80vh] bg-slate-100 lg:min-h-[85vh]">
         {!isLoaded && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center text-sm text-slate-500">
             Loading WordPress admin…
@@ -667,7 +667,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
   return (
     <div className="min-h-screen bg-slate-50">
       <WPAdminToolbar user={user} onLogout={onLogout} />
-      <div className="mx-auto max-w-7xl px-4 py-10 lg:px-10">
+      <div className="mx-auto w-full px-4 py-10 lg:px-10 xl:px-12">
         <header className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
