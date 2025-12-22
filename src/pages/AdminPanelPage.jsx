@@ -180,7 +180,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
   const [lessonForm, setLessonForm] = useState(defaultLessonForm);
   const [quizDraft, setQuizDraft] = useState(defaultQuizDraft);
   const [vocabularyDraft, setVocabularyDraft] = useState(defaultVocabularyDraft);
-  const [learningTracks, setLearningTracks] = useState(() => getLearningTracks());
+  const [learningTracks, setLearningTracks] = useState([]);
 
   const [roleDrafts, setRoleDrafts] = useState({});
   const [orgDrafts, setOrgDrafts] = useState({});
@@ -242,6 +242,17 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     }
     setQuizDraft((previous) => ({ ...previous, trackId: learningTracks[0].id }));
   }, [learningTracks, quizDraft.trackId]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getLearningTracks().then((tracks) => {
+      if (!isMounted) return;
+      setLearningTracks(tracks);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!learningTracks.length) return;
@@ -385,11 +396,11 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     }
   };
 
-  const handleTrackSubmit = (event) => {
+  const handleTrackSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      const newTrack = addLearningTrack(trackForm);
+      const newTrack = await addLearningTrack(user, trackForm);
       setLearningTracks((previous) => [newTrack, ...previous]);
       setTrackForm(defaultTrackForm);
       setQuizDraft((previous) => ({ ...defaultQuizDraft, trackId: previous.trackId || newTrack.id }));
@@ -401,7 +412,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     }
   };
 
-  const handleChapterSubmit = (event) => {
+  const handleChapterSubmit = async (event) => {
     event.preventDefault();
     if (!chapterForm.trackId) {
       handleError('Chọn khối trước khi thêm chapter.');
@@ -409,8 +420,12 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     }
     setIsSubmitting(true);
     try {
-      addChapter(chapterForm.trackId, { title: chapterForm.title, description: chapterForm.description });
-      setLearningTracks(getLearningTracks());
+      const { track } = await addChapter(user, chapterForm.trackId, {
+        title: chapterForm.title,
+        description: chapterForm.description
+      });
+
+      setLearningTracks((previous) => previous.map((entry) => (entry.id === track.id ? track : entry)));
       setChapterForm((previous) => ({ ...previous, title: '', description: '' }));
       handleSuccess('Đã thêm chapter mới. Hãy thêm lesson và nội dung cho VOCABULARY/QUIZZES/DIALOGUE.');
     } catch (error) {
@@ -420,20 +435,24 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     }
   };
 
-  const handleLessonSubmit = (event) => {
+  const handleLessonSubmit = async (event) => {
     event.preventDefault();
     if (!lessonForm.trackId || !lessonForm.chapterId) {
       handleError('Chọn khối và chapter trước khi thêm lesson.');
       return;
     }
 
-    if (!lessonForm.vocabularyItems.length && !lessonForm.vocabularyNote.trim()) {
-      handleError('Thêm ít nhất 1 từ vựng hoặc ghi chú vocabulary.');
+    const hasVocabulary = lessonForm.vocabularyItems.length > 0 || lessonForm.vocabularyNote.trim();
+    const hasDialogue = lessonForm.dialogueEnglish.trim() || lessonForm.dialogueVietnamese.trim();
+    const hasQuizzes = lessonForm.quizzes.trim();
+
+    if (!hasVocabulary && !hasDialogue && !hasQuizzes) {
+      handleError('Thêm nội dung Vocabulary, Dialogue hoặc Quizzes trước khi lưu.');
       return;
     }
     setIsSubmitting(true);
     try {
-      addLesson(lessonForm.trackId, lessonForm.chapterId, {
+      const { track } = await addLesson(user, lessonForm.trackId, lessonForm.chapterId, {
         title: lessonForm.title,
         sections: {
           vocabulary: {
@@ -447,7 +466,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
           }
         }
       });
-      setLearningTracks(getLearningTracks());
+      setLearningTracks((previous) => previous.map((entry) => (entry.id === track.id ? track : entry)));
       setLessonForm((previous) => ({
         ...previous,
         title: '',
@@ -473,7 +492,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     });
   };
 
-  const handleQuizSubmit = (event) => {
+  const handleQuizSubmit = async (event) => {
     event.preventDefault();
     if (!quizDraft.trackId) {
       handleError('Select a lesson before attaching a quiz question.');
@@ -489,7 +508,7 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
     setIsSubmitting(true);
     try {
       const boundedIndex = Math.min(Math.max(Number(quizDraft.correctIndex), 0), cleanedOptions.length - 1);
-      const updatedTrack = addQuizQuestion(quizDraft.trackId, {
+      const { track: updatedTrack } = await addQuizQuestion(user, quizDraft.trackId, {
         prompt: quizDraft.prompt,
         options: cleanedOptions,
         correctIndex: boundedIndex
@@ -1082,15 +1101,14 @@ const AdminPanelPage = ({ user, onProfileUpdate, onLogout }) => {
                     <div className="grid gap-4 md:grid-cols-2">
                       <label className="grid gap-1 text-sm text-slate-700">
                         Cover image URL
-                        <input
-                          type="url"
-                          value={trackForm.heroImage}
-                          onChange={(event) => setTrackForm((previous) => ({ ...previous, heroImage: event.target.value }))}
-                          className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/40"
-                          placeholder="https://..."
-                          required
-                        />
-                      </label>
+                  <input
+                    type="url"
+                    value={trackForm.heroImage}
+                    onChange={(event) => setTrackForm((previous) => ({ ...previous, heroImage: event.target.value }))}
+                    className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/40"
+                    placeholder="https://..."
+                  />
+                </label>
                       <label className="grid gap-1 text-sm text-slate-700">
                         PDF/Doc link (optional)
                         <input
