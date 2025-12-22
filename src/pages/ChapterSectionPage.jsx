@@ -4,10 +4,15 @@ import { FiBookOpen, FiCheckCircle, FiFolder, FiLayers, FiMessageSquare } from '
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { useChapterContent } from '../hooks/useChapterContent.js';
 import { normalizeDialogue, normalizeVocabulary } from '../utils/sectionContent.js';
+import { FiBookOpen, FiCheckCircle, FiFolder, FiLayers, FiMessageSquare, FiVolume2 } from 'react-icons/fi';
+import { useLanguage } from '../context/LanguageContext.jsx';
+import { useChapterContent } from '../hooks/useChapterContent.js';
+import { buildAudioSrc, normalizeDialogue, normalizeVocabulary } from '../utils/sectionContent.js';
 
 const ChapterSectionPage = () => {
   const { subjectId, gradeLevel, chapterId, sectionKey } = useParams();
   const { t } = useLanguage();
+  const audioBaseUrl = import.meta.env.VITE_AUDIO_BASE_URL || '/uploads';
   const { subject, chapter, quizQuestions } = useChapterContent(subjectId, gradeLevel, chapterId);
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
@@ -207,6 +212,19 @@ const ChapterSectionPage = () => {
                               )}
                             </p>
                           </div>
+                          {dialogue.audioFileName && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const audio = new Audio(buildAudioSrc(audioBaseUrl, dialogue.audioFileName));
+                                audio.play().catch(() => {});
+                              }}
+                              className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(56,189,248,0.35)] transition hover:bg-brand-dark"
+                            >
+                              <FiVolume2 aria-hidden />
+                              {t('chapterSectionPage.listenDialogue', 'Nghe hội thoại')}
+                            </button>
+                          )}
                         </div>
 
                         <div className="space-y-3">
@@ -256,6 +274,40 @@ const ChapterSectionPage = () => {
                               </div>
                             </div>
                           ))}
+                          {vocabulary.items.map((item) => {
+                            const audioSrc = buildAudioSrc(audioBaseUrl, item.audioFileName);
+                            return (
+                              <div key={`${lesson.id}-${item.term}`} className="grid grid-cols-5 gap-4 px-4 py-4">
+                                <div className="col-span-2 space-y-2">
+                                  <div className="flex items-center justify-between gap-3">
+                                    <p className="text-base font-semibold text-slate-900">{item.term}</p>
+                                    {audioSrc && (
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          const audio = new Audio(audioSrc);
+                                          audio.play().catch(() => {});
+                                        }}
+                                        className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand transition hover:bg-brand/20"
+                                      >
+                                        <FiVolume2 aria-hidden />
+                                        {t('chapterSectionPage.listen', 'Nghe')}
+                                      </button>
+                                    )}
+                                  </div>
+                                  {item.pronunciation && (
+                                    <p className="text-xs font-medium italic text-slate-600">{item.pronunciation}</p>
+                                  )}
+                                </div>
+                                <div className="col-span-3 space-y-1">
+                                  <p className="text-sm text-slate-800">
+                                    {item.translation || t('chapterPage.noTranslation', 'Chưa có nghĩa')}
+                                  </p>
+                                  {item.definition && <p className="text-xs text-slate-600">{item.definition}</p>}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                         {vocabulary.note && (
                           <p className="border-t border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-700">
